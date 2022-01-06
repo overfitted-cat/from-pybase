@@ -1,7 +1,7 @@
 #!/usr/bin/env make -f
 
 # Find all PY files except those in hidden folders. TODO: make this list extendable
-FILES_PY = $(shell find $(CURDIR) -type f -name "*.py" -not -path "$(CURDIR)/.**/**")
+FILES_PY = $(shell find $(CURDIR) -type f -name "*.py" -not -path "$(CURDIR)/.**/**" -not -path "$(CURDIR)/build/**")
 
 install:
 	python -m pip install -e . && \
@@ -26,7 +26,7 @@ validate:
 	@safety check --bare
 
 build-package:
-	@python -m build
+	@python setup.py bdist_wheel
 
 coverage:
 	@pytest --cov-report=html --cov=$(CURDIR)/tests/ -vv --color=yes
